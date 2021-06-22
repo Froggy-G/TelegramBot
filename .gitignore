@@ -115,3 +115,4 @@ dmypy.json
 
 # local ignore
 Settings.py
+.vscode/
