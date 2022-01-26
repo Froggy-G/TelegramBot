@@ -49,6 +49,38 @@ def open_weather_map_servis(city_name):
                     f"\n🌬Скорость ветра: {now_weather['wind']}м/с")
         return result_weather
 
+# module "weather coordinates" 
+def open_weather_map_servis_coordinates(lat, lon):
+    base_url = 'http://api.openweathermap.org/data/2.5/weather'
+    query = {
+        'lat': lat,
+        'lon': lon,
+        'appID': settings.weather_api_token # weather_api_token
+    }
+
+    weather_data = requests.get(base_url, params = query).json()
+    if weather_data['cod'] == '404':
+        return 'Город не найден'
+    else:
+        now_weather = {
+            'name': weather_data['name'],
+            'main': weather_data['weather'][0]['description'],
+            'temp': weather_data['main']['temp'],
+            'humidity': weather_data['main']['humidity'],
+            'pressure': weather_data['main']['pressure'],
+            'visibility': weather_data['visibility'],
+            'wind': weather_data['wind']['speed']
+        }
+
+        result_weather = (f"Погода для города: {now_weather['name']}\n"
+                    f"\n🌆На улице сейчас: {translate_text_into_russain(now_weather['main'].title())}" 
+                    f"\n🌡Температура: {round(now_weather['temp'] - 273)}℃"
+                    f"\n💧Влажность: {now_weather['humidity']}%"
+                    f"\n🌫Давление: {round(now_weather['pressure'] / 1.3)}мм.рт.стлб"
+                    f"\n🕴Видимость: {(now_weather['visibility']/ 1000)}км" 
+                    f"\n🌬Скорость ветра: {now_weather['wind']}м/с")
+        return result_weather
+
 # module "translate"
 ts._google.language_map={'en':['ru'],'ru':['en']}
 
