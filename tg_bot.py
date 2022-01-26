@@ -48,3 +48,6 @@ def main(message):
                 
 print('Пажилой Кавбой готов к работе.')
 bot.polling(none_stop = True, interval = 0)
+
+if __name__ == '__main__':
+    main()

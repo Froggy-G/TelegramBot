@@ -50,6 +50,8 @@ def open_weather_map_servis(city_name):
         return result_weather
 
 # module "translate"
+ts._google.language_map={'en':['ru'],'ru':['en']}
+
 def translate_text_into_russain(some_text):
     return ts.translate_html(some_text, translator = ts.google, to_language = 'ru', translator_params = {})
 def translate_text_into_english(some_text):
