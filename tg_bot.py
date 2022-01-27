@@ -3,7 +3,7 @@ import settings
 import commands
 
 # this code for work with bot
-bot = telebot.TeleBot(settings.telegram_api_token) # telegram_api_token
+tb = telebot.TeleBot(settings.telegram_token) # telegram_api_token
 
 # bots keyboard
 keyboard = telebot.types.ReplyKeyboardMarkup(True)
@@ -13,18 +13,18 @@ keyboard.row('Курс', 'Помощь')
 
 # 2nd branches of messages
 def translate_message_step_2(message):
-    bot.send_message(message.chat.id, 'Перевод: "' + commands.translate_text_into_russain(message.text) + '"')
+    tb.send_message(message.chat.id, 'Перевод: "' + commands.translate_text_into_russain(message.text) + '"')
 
 def weather_message_step_2(message):
-    bot.send_message(message.chat.id, commands.open_weather_map_servis(commands.translate_text_into_english(message.text)))
+    tb.send_message(message.chat.id, commands.open_weather_map_service(commands.translate_text_into_english(message.text)))
 
 def weather_coordinates_message_step_2(message):
     if message.text is not None:
-        bot.send_message(message.chat.id, 'Я просил геопозицию, а не текст')
+        tb.send_message(message.chat.id, 'Я просил геопозицию, а не текст')
     else:
         lon = message.location.longitude
         lat = message.location.latitude
-        bot.send_message(message.chat.id, commands.open_weather_map_servis_coordinates(lat, lon))
+        tb.send_message(message.chat.id, commands.open_weather_map_service_coordinates(lat, lon))
 
 # how to add new comand: ['command', 'function ', 'next step function'] 
 # P.S if something is missing, leave the field '' is empty 
@@ -45,19 +45,16 @@ all_commands_tg_bot = [
     ['Перевод', 'Какой текст будем переводить?', translate_message_step_2]
 ]
 # message sandler
-@bot.message_handler()
+@tb.message_handler()
 def main(message):
     for cmds in all_commands_tg_bot:
         if cmds[0] == message.text:
             if isinstance(cmds[1], str):
-                bot.send_message(message.chat.id, cmds[1], reply_markup = keyboard)
+                tb.send_message(message.chat.id, cmds[1], reply_markup = keyboard)
                 if cmds[2] != '':
-                    bot.register_next_step_handler(message, cmds[2])
+                    tb.register_next_step_handler(message, cmds[2])
             else:
-                bot.send_message(message.chat.id, cmds[1](), reply_markup = keyboard)
+                tb.send_message(message.chat.id, cmds[1](), reply_markup = keyboard)
 
 print('Пажилой Кавбой готов к работе.')
-bot.polling(none_stop = True, interval = 0)
-
-if __name__ == '__main__':
-    main()
+tb.polling(none_stop = True, interval = 0)

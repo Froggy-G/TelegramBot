@@ -19,11 +19,11 @@ def random_coin():
         return 'Встала ребром'
 
 # module "weather"
-def open_weather_map_servis(city_name):
+def open_weather_map_service(city_name):
     base_url = 'http://api.openweathermap.org/data/2.5/weather'
     query = {
         'q': city_name,
-        'appID': settings.weather_api_token # weather_api_token
+        'appID': settings.weather_token # weather_api_token
     }
 
     weather_data = requests.get(base_url, params = query).json()
@@ -50,12 +50,12 @@ def open_weather_map_servis(city_name):
         return result_weather
 
 # module "weather coordinates" 
-def open_weather_map_servis_coordinates(lat, lon):
+def open_weather_map_service_coordinates(lat, lon):
     base_url = 'http://api.openweathermap.org/data/2.5/weather'
     query = {
         'lat': lat,
         'lon': lon,
-        'appID': settings.weather_api_token # weather_api_token
+        'appID': settings.weather_token # weather_api_token
     }
 
     weather_data = requests.get(base_url, params = query).json()
